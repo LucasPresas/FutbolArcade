@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://saxj6ga44nc6"]
+
+[ext_resource type="Script" uid="uid://cqbo02qoi6i2p" path="res://Scenes/Entities/Shared/CharacterBase.cs" id="1_3b344"]
+[ext_resource type="Script" uid="uid://6ce3oeiiigx0" path="res://Core/Resources/PlayerStats.cs" id="2_g3cs0"]
+
+[sub_resource type="Resource" id="Resource_3b344"]
+script = ExtResource("2_g3cs0")
+metadata/_custom_type_script = "uid://6ce3oeiiigx0"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3b344"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_g3cs0"]
+
+[node name="CharacterBase" type="CharacterBody3D" unique_id=747085229]
+script = ExtResource("1_3b344")
+StatsResource = SubResource("Resource_3b344")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1380912773]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.15595818)
+shape = SubResource("BoxShape3D_3b344")
+debug_color = Color(0.43825486, 0.46834695, 0.9659274, 0.41960785)
+
+[node name="Visuals" type="Node3D" parent="CollisionShape3D" unique_id=1088981361]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0081784725)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D/Visuals" unique_id=1463899357]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.022212088)
+mesh = SubResource("BoxMesh_g3cs0")
