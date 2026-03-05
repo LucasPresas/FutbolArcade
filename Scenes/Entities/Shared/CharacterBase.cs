@@ -12,12 +12,26 @@ public partial class CharacterBase : CharacterBody3D
     [ExportGroup("Physics Interaction")]
     [Export] public float PushForce = 1.5f;
 
-    // Obtenemos la gravedad del proyecto para que sea realista
+    // Obtenemos la gravedad del proyecto
     public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+
+    public override void _Ready()
+    {
+        // MAGIA AUTOMÁTICA: Si el hueco en el Inspector está vacío, el código lo busca solo.
+        if (Visuals == null)
+        {
+            Visuals = GetNodeOrNull<Node3D>("Visuals");
+            
+            if (Visuals == null)
+            {
+                GD.PrintErr("CRÍTICO: No encontré el nodo 'Visuals' en " + Name + ". Asegúrate de que se llame exactamente 'Visuals'.");
+            }
+        }
+    }
 
     public override void _PhysicsProcess(double delta)
     {
-        // 1. Aplicar gravedad si no estamos en el suelo
+        // Gravedad
         if (!IsOnFloor())
         {
             Vector3 v = Velocity;
@@ -25,28 +39,29 @@ public partial class CharacterBase : CharacterBody3D
             Velocity = v;
         }
 
-        // 2. Mover el cuerpo físico
         MoveAndSlide();
-
-        // 3. Empujar objetos
         HandleCollisionPush();
     }
 
     public void MoveCharacter(Vector3 direction)
     {
+        // Si no hay Stats, no nos movemos (evita crasheos)
         if (StatsResource == null) return;
 
         Vector3 velocity = Velocity;
         
-        // Mantener la velocidad vertical (gravedad) y actualizar X/Z
         velocity.X = direction.X * StatsResource.MoveSpeed;
         velocity.Z = direction.Z * StatsResource.MoveSpeed;
 
         if (direction.Length() > 0)
         {
             float targetAngle = Mathf.Atan2(direction.X, direction.Z);
-            // Lerp de rotación opcional para que sea más suave
-            Visuals.Rotation = new Vector3(0, targetAngle, 0);
+            
+            // RED DE SEGURIDAD: Solo rotamos si el nodo Visuals existe
+            if (Visuals != null)
+            {
+                Visuals.Rotation = new Vector3(0, targetAngle, 0);
+            }
         }
 
         Velocity = velocity;
@@ -60,7 +75,6 @@ public partial class CharacterBase : CharacterBody3D
             if (collision.GetCollider() is RigidBody3D rb)
             {
                 Vector3 pushDir = -collision.GetNormal();
-                // Solo empujamos en el plano horizontal para no hundir la pelota
                 pushDir.Y = 0; 
                 Vector3 impulse = pushDir * Velocity.Length() * PushForce;
                 rb.ApplyImpulse(impulse, collision.GetPosition() - rb.GlobalPosition);

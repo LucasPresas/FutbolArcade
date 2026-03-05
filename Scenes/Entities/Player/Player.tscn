@@ -7,10 +7,9 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qer5h"]
 albedo_color = Color(0, 0.21949008, 0.3662678, 1)
 
-[node name="Player" unique_id=747085229 node_paths=PackedStringArray("Visuals") instance=ExtResource("1_7kpwk")]
+[node name="Player" unique_id=747085229 instance=ExtResource("1_7kpwk")]
 script = ExtResource("2_qer5h")
 StatsResource = ExtResource("3_pmdnf")
-Visuals = NodePath("CollisionShape3D/Visuals")
 
-[node name="MeshInstance3D" parent="CollisionShape3D/Visuals" parent_id_path=PackedInt32Array(1088981361) index="0" unique_id=1463899357]
+[node name="MeshInstance3D" parent="Visuals" parent_id_path=PackedInt32Array(1088981361) index="0" unique_id=1463899357]
 material_override = SubResource("StandardMaterial3D_qer5h")
