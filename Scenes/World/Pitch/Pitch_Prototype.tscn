@@ -15,9 +15,9 @@ albedo_texture = ExtResource("2_48u3x")
 [sub_resource type="Environment" id="Environment_b7nod"]
 background_mode = 2
 sky = SubResource("Sky_48u3x")
-ambient_light_source = 2
+ambient_light_source = 3
 ambient_light_color = Color(0.92535293, 0.9253528, 0.9253529, 1)
-ambient_light_energy = 7.93
+ambient_light_energy = 1.13
 
 [node name="Main" type="Node3D" unique_id=713982986]
 
@@ -25,11 +25,12 @@ ambient_light_energy = 7.93
 use_collision = true
 
 [node name="Floor" type="CSGBox3D" parent="Stadium" unique_id=2028551456]
-transform = Transform3D(-5.096748e-07, 0, 8.270248, 0, 0.17999999, 0, -11.66, 0, -3.6150405e-07, -0.020518726, 0.00032297857, -1.4597828)
+transform = Transform3D(11.66, 0, 0, 0, 0.17999999, 0, 0, 0, 8.270248, -0.020518726, 0.00032297857, -1.4597828)
 material_override = SubResource("StandardMaterial3D_1bvp3")
 size = Vector3(1.1835938, 1, 1)
 
 [node name="Arcos" type="Node3D" parent="Stadium" unique_id=204163721]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.6509321, 0, -1.4001994)
 
 [node name="ArcoLocal" type="CSGBox3D" parent="Stadium/Arcos" unique_id=1997899988]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.405, 0.881, 4.645)
@@ -52,10 +53,17 @@ operation = 2
 size = Vector3(2.9244633, 1.3554306, 0.9317627)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2104703556]
-transform = Transform3D(-4.371139e-08, -0.81915206, 0.57357645, 0, 0.57357645, 0.81915206, -1, 3.5806274e-08, -2.5071824e-08, 5, 4, 1)
+transform = Transform3D(0.99891603, 0.038130272, -0.026699105, 0, 0.57357645, 0.81915206, 0.046548467, -0.8182641, 0.5729547, 0.1442647, 4.331878, 1.9992914)
 
 [node name="Player" parent="." unique_id=747085229 instance=ExtResource("3_48u3x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6625476, 0.5388224, 2.5181754)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3621812, 0.5388224, -1.4850771)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1727221778]
 environment = SubResource("Environment_b7nod")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=179293452]
+transform = Transform3D(1, 0, 0, 0, 0.15607242, 0.98774564, 0, -0.98774564, 0.15607242, 0, 3.879502, 0)
+light_energy = 10.526
+light_volumetric_fog_energy = 0.525
+light_angular_distance = 19.6
+light_specular = 3.218
