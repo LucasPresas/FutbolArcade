@@ -71,3 +71,4 @@ light_specular = 3.218
 
 [node name="Ball" parent="." unique_id=711993284 instance=ExtResource("4_b7nod")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8835609, 0)
+mass = 1.0
