@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://bll2esbtjwoh3"]
+
+[ext_resource type="Texture2D" uid="uid://ci6aa3h0h3qph" path="res://Assets/Art/Prototype/Green/texture_13.png" id="1_15e8s"]
+[ext_resource type="Texture2D" uid="uid://d2vi3bkc5lg22" path="res://Assets/Art/Prototype/Green/texture_09.png" id="2_ddijb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
+albedo_texture = ExtResource("1_15e8s")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
+albedo_texture = ExtResource("2_ddijb")
+
+[node name="Main" type="Node3D" unique_id=713982986]
+
+[node name="Stadium" type="CSGCombiner3D" parent="." unique_id=1448521872]
+use_collision = true
+
+[node name="Floor" type="CSGBox3D" parent="Stadium" unique_id=2028551456]
+transform = Transform3D(-5.096748e-07, 0, 8.270248, 0, 0.17999999, 0, -11.66, 0, -3.6150405e-07, -0.020518726, 0.00032297857, -1.4597828)
+material_override = SubResource("StandardMaterial3D_1bvp3")
+size = Vector3(1.1835938, 1, 1)
+
+[node name="Arcos" type="Node3D" parent="Stadium" unique_id=204163721]
+
+[node name="ArcoLocal" type="CSGBox3D" parent="Stadium/Arcos" unique_id=1997899988]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.405, 0.881, 4.645)
+size = Vector3(3.3654327, 1.513031, 1.5949707)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Stadium/Arcos/ArcoLocal" unique_id=869987386]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.027661324, -0.0788002, -0.3740852)
+material_override = SubResource("StandardMaterial3D_lquwl")
+operation = 2
+size = Vector3(2.9244633, 1.3554306, 0.9317627)
+
+[node name="ArcoVisitante" type="CSGBox3D" parent="Stadium/Arcos" unique_id=1982592974]
+transform = Transform3D(-0.9999664, 0, -0.008202985, 0, 1, 0, 0.008202985, 0, -0.9999664, 0.405, 0.881, -7.559)
+size = Vector3(3.3654327, 1.513031, 1.5949707)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Stadium/Arcos/ArcoVisitante" unique_id=1444689392]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.027661324, -0.0788002, -0.3740852)
+material_override = SubResource("StandardMaterial3D_lquwl")
+operation = 2
+size = Vector3(2.9244633, 1.3554306, 0.9317627)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2104703556]
+transform = Transform3D(-4.371139e-08, -0.81915206, 0.57357645, 0, 0.57357645, 0.81915206, -1, 3.5806274e-08, -2.5071824e-08, 5, 4, 1)
