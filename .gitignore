@@ -1,0 +1,22 @@
+# Godot-specific ignores
+.godot/
+extended_editor_settings.tres
+
+# .NET / C# ignores
+bin/
+obj/
+.vs/
+.vscode/
+*.sln
+*.csproj
+*.user
+*.suo
+*.pdb
+*.tmp
+
+# OS-specific ignores
+.DS_Store
+Thumbs.db
+
+# Crash logs and temporary files
+*.log
