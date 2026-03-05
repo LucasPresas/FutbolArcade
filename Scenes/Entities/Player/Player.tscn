@@ -1,3 +1,13 @@
-[gd_scene format=3 uid="uid://cokjqgyju32ye"]
+[gd_scene format=3 uid="uid://boxak22dh8soc"]
 
-[node name="Player" type="Node3D" unique_id=1613178826]
+[ext_resource type="PackedScene" uid="uid://saxj6ga44nc6" path="res://Scenes/Entities/Shared/CharacterBase.tscn" id="1_7kpwk"]
+[ext_resource type="Script" uid="uid://bvk0u12in0gsx" path="res://Scenes/Entities/Player/CharacterController.cs" id="2_qer5h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qer5h"]
+albedo_color = Color(0, 0.21949008, 0.3662678, 1)
+
+[node name="Player" unique_id=747085229 instance=ExtResource("1_7kpwk")]
+script = ExtResource("2_qer5h")
+
+[node name="MeshInstance3D" parent="CollisionShape3D/Visuals" parent_id_path=PackedInt32Array(1088981361) index="0" unique_id=1463899357]
+material_override = SubResource("StandardMaterial3D_qer5h")
