@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://bll2esbtjwoh3"]
 
-[ext_resource type="Texture2D" uid="uid://ci6aa3h0h3qph" path="res://Assets/Art/Prototype/Green/texture_13.png" id="1_15e8s"]
-[ext_resource type="Texture2D" uid="uid://d2vi3bkc5lg22" path="res://Assets/Art/Prototype/Green/texture_09.png" id="2_ddijb"]
+[ext_resource type="Texture2D" uid="uid://ci6aa3h0h3qph" path="res://Assets/Art/Prototype/Green/texture_13.png" id="1_xg0a5"]
+[ext_resource type="Texture2D" uid="uid://d2vi3bkc5lg22" path="res://Assets/Art/Prototype/Green/texture_09.png" id="2_48u3x"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
-albedo_texture = ExtResource("1_15e8s")
+albedo_texture = ExtResource("1_xg0a5")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
-albedo_texture = ExtResource("2_ddijb")
+albedo_texture = ExtResource("2_48u3x")
 
 [node name="Main" type="Node3D" unique_id=713982986]
 
