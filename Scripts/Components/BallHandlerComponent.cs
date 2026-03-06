@@ -5,8 +5,11 @@ public partial class BallHandlerComponent : ComponentBase
     [Export] public NodePath DetectionAreaPath { get; set; }
     [Export] public NodePath DribbleMarkerPath { get; set; }
 
-    private Area2D _detectionArea;
-    private Marker2D _dribbleMarker;
+    private Area3D _detectionArea;
+    private Marker3D _dribbleMarker;
+
+    // Publicly accessible so Player.TryAction can kick the carried ball
+    public Ball CarriedBall { get; private set; }
 
     public override void _Ready()
     {
@@ -14,35 +17,35 @@ public partial class BallHandlerComponent : ComponentBase
 
         if (DetectionAreaPath != null)
         {
-            _detectionArea = GetNode<Area2D>(DetectionAreaPath);
-            // Connect signal to detect ball
+            _detectionArea = GetNode<Area3D>(DetectionAreaPath);
             _detectionArea.BodyEntered += OnBodyEntered;
         }
 
         if (DribbleMarkerPath != null)
         {
-            _dribbleMarker = GetNode<Marker2D>(DribbleMarkerPath);
+            _dribbleMarker = GetNode<Marker3D>(DribbleMarkerPath);
         }
     }
 
-    private void OnBodyEntered(Node2D body)
+    private void OnBodyEntered(Node3D body)
     {
-        // When the Area2D touches the ball
-        if (body is Ball ball)
+        // Only pick up if we don't already have the ball
+        if (body is Ball ball && CarriedBall == null)
         {
-            // Transition ball to carried state, passing the marker for the ball to snap to
+            CarriedBall = ball;
+
             var message = new Godot.Collections.Dictionary<string, Variant>
             {
                 { "carrier_marker", _dribbleMarker }
             };
-            
+
             ball.StateMachine.TransitionTo("Carried", message);
-            
-            // Optionally, transition the player to Dribble mode if that state exists
-            if (Actor.StateMachine.HasNode("Dribble"))
-            {
-                Actor.StateMachine.TransitionTo("Dribble");
-            }
+            GD.Print($"[BallHandler] {Actor.Name} agarró la pelota.");
         }
+    }
+
+    public void ReleaseBall()
+    {
+        CarriedBall = null;
     }
 }

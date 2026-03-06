@@ -24,7 +24,7 @@ public partial class StateMachine : Node
         }
     }
 
-    public void TransitionTo(string stateName, Dictionary<string, Variant> message = null)
+    public void TransitionTo(string stateName, Godot.Collections.Dictionary<string, Variant> message = null)
     {
         if (!HasNode(stateName))
         {

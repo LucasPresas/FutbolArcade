@@ -1,28 +1,43 @@
 using Godot;
+using AcmeStriker;
 
-public partial class ActorBase : CharacterBody2D // Or CharacterBody3D if you chose Option B for 2DHD
+public partial class ActorBase : CharacterBase // Bridging to the user's original placeholder base
 {
-    [Export] public NodePath StateMachinePath { get; set; }
-    [Export] public NodePath ControllerPath { get; set; }
+	[Export] public NodePath StateMachinePath { get; set; }
+	[Export] public NodePath ControllerPath { get; set; }
+	[Export] public int TeamId { get; set; } = 0;
 
-    public StateMachine StateMachine { get; private set; }
-    public IController Controller { get; set; }
+	public StateMachine StateMachine { get; private set; }
+	public IController Controller { get; set; }
 
-    public override void _Ready()
-    {
-        if (StateMachinePath != null)
-        {
-            StateMachine = GetNode<StateMachine>(StateMachinePath);
-        }
+	private Vector3 _startPosition;
 
-        if (ControllerPath != null)
-        {
-            Controller = GetNode<IController>(ControllerPath);
-        }
-    }
+	public override void _Ready()
+	{
+		base._Ready(); // Call original Ready to setup Visuals
 
-    public void SetController(IController newController)
-    {
-        Controller = newController;
-    }
+		_startPosition = GlobalPosition;
+		AddToGroup("all_players");
+
+		if (StateMachinePath != null)
+		{
+			StateMachine = GetNode<StateMachine>(StateMachinePath);
+		}
+
+		if (ControllerPath != null)
+		{
+			Controller = GetNode<IController>(ControllerPath);
+		}
+	}
+
+	public void SetController(IController newController)
+	{
+		Controller = newController;
+	}
+
+	public void ResetToStart()
+	{
+		GlobalPosition = _startPosition;
+		Velocity = Vector3.Zero;
+	}
 }

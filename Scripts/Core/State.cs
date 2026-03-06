@@ -1,5 +1,4 @@
 using Godot;
-using Godot.Collections;
 
 public abstract partial class State : Node
 {
@@ -10,7 +9,7 @@ public abstract partial class State : Node
         StateMachine = GetParent<StateMachine>();
     }
 
-    public virtual void Enter(Dictionary<string, Variant> message = null)
+    public virtual void Enter(Godot.Collections.Dictionary<string, Variant> message = null)
     {
         // Setup code here
     }

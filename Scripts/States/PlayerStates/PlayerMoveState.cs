@@ -9,10 +9,10 @@ public partial class PlayerMoveState : PlayerState
 
     public override void Update(double delta)
     {
-        Vector2 inputDir = Player.Controller?.GetMoveDirection() ?? Vector2.Zero;
+        Vector3 inputDir = Player.Controller?.GetMoveDirection() ?? Vector3.Zero;
 
         // Transition to idle state if input stops
-        if (inputDir == Vector2.Zero)
+        if (inputDir == Vector3.Zero)
         {
             StateMachine.TransitionTo("Idle");
             return;

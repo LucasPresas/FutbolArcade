@@ -5,8 +5,8 @@ public partial class BallFreeState : BallState
     public override void Enter(Godot.Collections.Dictionary<string, Variant> message = null)
     {
         // Reactivate collisions when the ball is free
-        Ball.SetDeferred(RigidBody2D.PropertyName.CollisionLayer, 1);
-        Ball.SetDeferred(RigidBody2D.PropertyName.CollisionMask, 1);
+        Ball.SetDeferred(RigidBody3D.PropertyName.CollisionLayer, 1);
+        Ball.SetDeferred(RigidBody3D.PropertyName.CollisionMask, 1);
     }
 
     public override void Update(double delta)

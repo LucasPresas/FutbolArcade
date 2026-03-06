@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c0haw1mxm4ukq"]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="Script" uid="uid://b7vxhex7caq0o" path="res://Scripts/Actors/Player.cs" id="1_player_main"]
 [ext_resource type="Resource" uid="uid://btw4w2c5lxywk" path="res://Data/PlayerStats/DefaultPlayerStats.tres" id="2_player_stats"]
@@ -9,15 +9,15 @@
 [ext_resource type="Script" uid="uid://lb46l88xtpur" path="res://Scripts/Components/MovementComponent.cs" id="7_move_comp"]
 [ext_resource type="Script" uid="uid://ecyax6yo7h70" path="res://Scripts/Components/BallHandlerComponent.cs" id="8_ball_handler"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ia"]
-albedo_color = Color(0.8, 0.1, 0.1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_companion"]
+albedo_color = Color(0, 0.447059, 0.737255, 1)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_ia"]
-material = SubResource("StandardMaterial3D_ia")
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_companion"]
+material = SubResource("StandardMaterial3D_companion")
 radius = 0.5
 height = 2.0
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ia"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_companion"]
 radius = 0.5
 height = 2.0
 
@@ -50,22 +50,22 @@ size = Vector3(1.0, 0.12, 0.06)
 [sub_resource type="SphereShape3D" id="SphereShape3D_pass"]
 radius = 8.0
 
-[node name="IA" type="CharacterBody3D"]
+[node name="Companion" type="CharacterBody3D"]
 script = ExtResource("1_player_main")
 StateMachinePath = NodePath("StateMachine")
 ControllerPath = NodePath("Controllers/AIController")
 StatsResource = ExtResource("2_player_stats")
 KickPicker = NodePath("GrabArea")
 PassScanArea = NodePath("PassScanArea")
-TeamId = 1
+TeamId = 0
 
 [node name="Visuals" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_ia")
+mesh = SubResource("CapsuleMesh_companion")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_ia")
+shape = SubResource("CapsuleShape3D_companion")
 
 [node name="DribblePoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.9)
@@ -118,6 +118,7 @@ script = ExtResource("5_move_state")
 
 [node name="AIController" type="Node" parent="Controllers"]
 script = ExtResource("6_ai_ctrl")
+TargetGoalGroup = "goal_0"
 
 [node name="Components" type="Node" parent="."]
 

@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class PitchBoundary : StaticBody2D
+public partial class PitchBoundary : StaticBody3D
 {
     [Export] public float BounceForce { get; set; } = 0.8f; // 0 is no bounce, 1 is perfect bounce (billiards)
 

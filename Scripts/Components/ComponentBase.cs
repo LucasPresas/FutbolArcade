@@ -12,7 +12,11 @@ public abstract partial class ComponentBase : Node
         
         if (Actor == null)
         {
-            GD.PrintErr($"Component {Name} could not find ActorBase in its parents.");
+            GD.PrintErr($"CRÍTICO: Component {Name} no pudo encontrar a ActorBase en sus ancestros. Verifica el árbol de nodos.");
+        }
+        else 
+        {
+            GD.Print($"[OK] {Name} conectado a {Actor.Name}");
         }
     }
 }

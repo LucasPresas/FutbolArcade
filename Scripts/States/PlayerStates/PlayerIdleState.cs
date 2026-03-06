@@ -9,16 +9,16 @@ public partial class PlayerIdleState : PlayerState
 
     public override void Update(double delta)
     {
-        Vector2 inputDir = Player.Controller?.GetMoveDirection() ?? Vector2.Zero;
+        Vector3 inputDir = Player.Controller?.GetMoveDirection() ?? Vector3.Zero;
         
         // Transition to move state if there's input
-        if (inputDir != Vector2.Zero)
+        if (inputDir != Vector3.Zero)
         {
             StateMachine.TransitionTo("Move");
             return;
         }
 
         // Apply friction to completely stop if still sliding a bit
-        Movement?.Move(Vector2.Zero, delta);
+        Movement?.Move(Vector3.Zero, delta);
     }
 }

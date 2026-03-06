@@ -39,7 +39,13 @@ public partial class CharacterBase : CharacterBody3D
             Velocity = v;
         }
 
-        MoveAndSlide();
+        // Delegamos el MoveAndSlide al MovementComponent por medio del StateMachine.
+        // Solo llamamos MoveAndSlide() aquí si NO estamos usando la StateMachine (Legacy Mode).
+        if (!HasNode("StateMachine")) 
+        {
+            MoveAndSlide();
+        }
+        
         HandleCollisionPush();
     }
 
