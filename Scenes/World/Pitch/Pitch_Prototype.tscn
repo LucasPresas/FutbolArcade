@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://boxak22dh8soc" path="res://Scenes/Entities/Player/Player.tscn" id="3_48u3x"]
 [ext_resource type="PackedScene" uid="uid://esgebhao138e" path="res://Scenes/Entities/Ball/Ball.tscn" id="4_b7nod"]
 [ext_resource type="PackedScene" uid="uid://dlmxgtn3476re" path="res://Scenes/Entities/IA/IACharacter.tscn" id="5_omlyk"]
+[ext_resource type="Script" uid="uid://7bgejcgtbg46" path="res://Scenes/Entities/IA/IACharacter.cs" id="6_56u6b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
 albedo_texture = ExtResource("1_xg0a5")
@@ -76,3 +77,4 @@ mass = 1.0
 
 [node name="IACharacter" parent="." unique_id=1649397057 instance=ExtResource("5_omlyk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.305115, 0.590323, -1.5617781)
+script = ExtResource("6_56u6b")

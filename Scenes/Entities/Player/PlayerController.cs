@@ -13,6 +13,7 @@ public partial class PlayerController : CharacterBase
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
 		
+		
 		MoveCharacter(direction);
 
 		if (Input.IsActionJustPressed("action_shoot"))

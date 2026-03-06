@@ -3,35 +3,43 @@ using System;
 
 namespace AcmeStriker;
 
-public partial class AICharacter : CharacterBase
+public partial class IACharacter : CharacterBase
 {
-	[ExportGroup("AI Brain Settings")]
+	[ExportGroup("IA BrIAn Settings")]
 	[Export] public float RandomWanderRadius = 4.0f; // Qué tan lejos merodea de la pelota
 	[Export] public float SupportDistance = 5.0f;    // Qué tan lejos sigue a un compañero
 
-	[ExportGroup("AI Components")]
+	[ExportGroup("IA Components")]
 	[Export] public NavigationAgent3D NavAgent; 
 
 	private Node3D _ball;
 	
 	// Nuestro FSM (Máquina de Estados)
-	private enum AIBehavior { Chasing, Wandering, Supporting }
-	private AIBehavior _currentBehavior = AIBehavior.Wandering;
+	private enum IABehavior { Chasing, Wandering, Supporting }
+	private IABehavior _currentBehavior = IABehavior.Wandering;
 
 	public override void _Ready()
 	{
+
 		if (NavAgent == null)
 		{
-			GD.PushError("¡Cuidado! Asigna el NavigationAgent3D en el Inspector del AIPlayer.");
+			GD.PushError("¡Cuidado! Asigna el NavigationAgent3D en el Inspector del IAPlayer.");
 		}
 
 		// Buscamos la pelota usando Grupos (Desacoplamiento total)
 		_ball = GetTree().GetFirstNodeInGroup("Ball") as Node3D;
+	
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (_ball == null || NavAgent == null) return;
+		if (_ball == null || NavAgent == null)
+		{
+			Console.WriteLine("no se encuentra la pelota");
+		} else
+		{
+			Console.WriteLine("se encuentra la pelota");
+		}
 
 		DetermineBehavior();
 		ExecuteMovement();
@@ -44,17 +52,17 @@ public partial class AICharacter : CharacterBase
 		// Por ahora, simulamos las condiciones que pidió el Game Designer:
 		bool ballIsFree = true; 
 		bool teammateHasBall = false;
-
+	
 		if (teammateHasBall)
 		{
 			// Si mi compañero la tiene, me muevo a cierta distancia (Supporting)
-			_currentBehavior = AIBehavior.Supporting;
+			_currentBehavior = IABehavior.Supporting;
 		}
 		else if (ballIsFree) 
 		{
 			// Si nadie la tiene, tiro un dado: 70% de perseguir directo, 30% de merodear
 			// Esto le da el toque "azar" alrededor de la pelota que pediste.
-			_currentBehavior = (GD.Randf() > 0.3f) ? AIBehavior.Chasing : AIBehavior.Wandering;
+			_currentBehavior = (GD.Randf() > 0.3f) ? IABehavior.Chasing : IABehavior.Wandering;
 		}
 	}
 
@@ -65,17 +73,17 @@ public partial class AICharacter : CharacterBase
 
 		switch (_currentBehavior)
 		{
-			case AIBehavior.Chasing:
+			case IABehavior.Chasing:
 				// Va directo a la pelota, no modificamos targetPos
 				break;
 
-			case AIBehavior.Wandering:
+			case IABehavior.Wandering:
 				// Merodeo azaroso alrededor del punto donde está la pelota
 				Vector3 randomOffset = new Vector3((float)GD.RandRange(-1, 1), 0, (float)GD.RandRange(-1, 1)).Normalized();
 				targetPos += randomOffset * RandomWanderRadius;
 				break;
 
-			case AIBehavior.Supporting:
+			case IABehavior.Supporting:
 				// Actúa moviéndose a cierta distancia de la pelota, siguiéndola
 				Vector3 awayFromBall = (GlobalPosition - _ball.GlobalPosition).Normalized();
 				targetPos = _ball.GlobalPosition + (awayFromBall * SupportDistance);

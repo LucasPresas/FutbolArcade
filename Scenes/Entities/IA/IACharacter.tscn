@@ -1,20 +1,8 @@
 [gd_scene format=3 uid="uid://dlmxgtn3476re"]
 
 [ext_resource type="PackedScene" uid="uid://saxj6ga44nc6" path="res://Scenes/Entities/Shared/CharacterBase.tscn" id="1_dwafb"]
-
-[sub_resource type="GDScript" id="GDScript_dwafb"]
-script/source = "extends Node
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-"
+[ext_resource type="Script" uid="uid://7bgejcgtbg46" path="res://Scenes/Entities/IA/IACharacter.cs" id="2_jx400"]
+[ext_resource type="Resource" uid="uid://btw4w2c5lxywk" path="res://Data/PlayerStats/DefaultPlayerStats.tres" id="3_25080"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_25080"]
 albedo_color = Color(1, 0.08627451, 0, 1)
@@ -22,11 +10,13 @@ albedo_color = Color(1, 0.08627451, 0, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_eenm0"]
 material = SubResource("StandardMaterial3D_25080")
 
-[node name="IACharacter" unique_id=747085229 instance=ExtResource("1_dwafb")]
-script = SubResource("GDScript_dwafb")
-
-[node name="CollisionShape3D" parent="." index="0" unique_id=1380912773]
-debug_color = Color(0.4119664, 0.5042914, 0.87847555, 0.41960785)
+[node name="IACharacter" unique_id=747085229 node_paths=PackedStringArray("NavAgent", "Visuals") instance=ExtResource("1_dwafb")]
+script = ExtResource("2_jx400")
+RandomWanderRadius = 4.0
+SupportDistance = 5.0
+NavAgent = NodePath("NavigationAgent3D")
+StatsResource = ExtResource("3_25080")
+Visuals = NodePath("Visuals")
 
 [node name="MeshInstance3D" parent="Visuals" parent_id_path=PackedInt32Array(1088981361) index="0" unique_id=1463899357]
 mesh = SubResource("BoxMesh_eenm0")

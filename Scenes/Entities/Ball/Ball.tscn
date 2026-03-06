@@ -20,7 +20,7 @@ albedo_color = Color(0.3372549, 1, 1, 1)
 material = SubResource("StandardMaterial3D_yceyo")
 radius = 0.6
 
-[node name="Ball" type="RigidBody3D" unique_id=711993284]
+[node name="Ball" type="RigidBody3D" unique_id=711993284 groups=["Ball"]]
 collision_layer = 4
 collision_mask = 3
 mass = 5.0

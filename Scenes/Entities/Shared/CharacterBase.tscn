@@ -18,7 +18,7 @@ StatsResource = SubResource("Resource_3b344")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1380912773]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.15595818)
 shape = SubResource("BoxShape3D_3b344")
-debug_color = Color(0.43825486, 0.46834695, 0.9659274, 0.41960785)
+debug_color = Color(0.4119664, 0.5042914, 0.87847555, 0.41960785)
 
 [node name="Visuals" type="Node3D" parent="." unique_id=1088981361]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1477797)
