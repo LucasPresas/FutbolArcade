@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Fuchibol"
 run/main_scene="uid://bll2esbtjwoh3"
-config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 
 [dotnet]
 
