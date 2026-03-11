@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://boxak22dh8soc"]
+
+[ext_resource type="Script" uid="uid://c5rt3f702wnw8" path="res://Scripts/Actors/PlayerBase.cs" id="1_7k3tc"]
+[ext_resource type="Script" uid="uid://cebe1m60b7cx8" path="res://Scripts/Resources/PlayerStats.cs" id="2_7erxw"]
+[ext_resource type="Script" uid="uid://ixnk6m8qvsnh" path="res://Scripts/Controllers/HumanController.cs" id="3_yh1d3"]
+[ext_resource type="Script" uid="uid://cp27vyea5s7yb" path="res://Scripts/Components/BallHandler.cs" id="5_1rcb1"]
+[ext_resource type="Script" uid="uid://b4jedltghwdwn" path="res://Scripts/Components/PlayerStateMachine.cs" id="6_7erxw"]
+[ext_resource type="Script" uid="uid://deoceekvepplt" path="res://Scripts/States/Player/PlayerIdleState.cs" id="7_vu15h"]
+[ext_resource type="Script" uid="uid://dvuub5sm3nyla" path="res://Scripts/States/Player/PlayerDribbleState.cs" id="8_7erxw"]
+[ext_resource type="Script" uid="uid://bo4o3isr5x4ey" path="res://Scripts/States/Player/PlayerMoveState.cs" id="8_ectyf"]
+
+[sub_resource type="Resource" id="Resource_vu15h"]
+script = ExtResource("2_7erxw")
+Speed = 10.0
+metadata/_custom_type_script = "uid://cebe1m60b7cx8"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_grab"]
+size = Vector3(1.2, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grabdebug"]
+transparency = 1
+albedo_color = Color(1, 1, 0, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_grabdebug"]
+material = SubResource("StandardMaterial3D_grabdebug")
+size = Vector3(1.2, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6jcbw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jcbw"]
+albedo_color = Color(0, 0.06666667, 0.3372549, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_6jcbw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pass"]
+radius = 8.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pbar_bg"]
+transparency = 1
+albedo_color = Color(0.2, 0.2, 0.2, 0.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pbar_bg"]
+material = SubResource("StandardMaterial3D_pbar_bg")
+size = Vector3(1, 0.15, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pbar_fill"]
+albedo_color = Color(0.2, 1, 0.1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pbar_fill"]
+material = SubResource("StandardMaterial3D_pbar_fill")
+size = Vector3(1, 0.12, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ring"]
+albedo_color = Color(1, 0.9, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ring"]
+material = SubResource("StandardMaterial3D_ring")
+top_radius = 0.7
+bottom_radius = 0.7
+height = 0.08
+
+[node name="PlayerBase" type="CharacterBody3D" unique_id=1394387626 node_paths=PackedStringArray("BallHandler", "StateMachine")]
+script = ExtResource("1_7k3tc")
+Stats = SubResource("Resource_vu15h")
+BallHandler = NodePath("Components/BallHandler")
+StateMachine = NodePath("Components/StateMachine")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1471686186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_player")
+debug_color = Color(0.023529412, 0.039215688, 0.85490197, 0.41960785)
+
+[node name="Rotator" type="Node3D" parent="." unique_id=1570555432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="GrabArea" type="Area3D" parent="Rotator" unique_id=854230603]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.8)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rotator/GrabArea" unique_id=528947500]
+shape = SubResource("BoxShape3D_grab")
+
+[node name="DebugMesh" type="MeshInstance3D" parent="Rotator/GrabArea" unique_id=994105896]
+mesh = SubResource("BoxMesh_grabdebug")
+
+[node name="DribblePoint" type="Marker3D" parent="Rotator" unique_id=602281145]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.9)
+
+[node name="Visuals" type="Node3D" parent="Rotator" unique_id=1742716251]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rotator/Visuals" unique_id=376524241]
+mesh = SubResource("CapsuleMesh_6jcbw")
+surface_material_override/0 = SubResource("StandardMaterial3D_6jcbw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rotator" unique_id=835460704]
+transform = Transform3D(0.040768333, 0, 1.0012654, -0.94578934, -0.1218047, 0.042942427, 0.06726413, -1.7126749, -0.003054047, 0, 0, 0)
+visible = false
+mesh = SubResource("PrismMesh_6jcbw")
+
+[node name="PassScanArea" type="Area3D" parent="." unique_id=1405300479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PassScanArea" unique_id=1807762299]
+shape = SubResource("SphereShape3D_pass")
+
+[node name="PowerBar" type="Node3D" parent="." unique_id=1030583695]
+transform = Transform3D(0.1865069, 0, -0.98245364, 0, 1, 0, 0.98245364, 0, 0.1865069, 0, 2.4, 0)
+visible = false
+
+[node name="Background" type="MeshInstance3D" parent="PowerBar" unique_id=554843610]
+mesh = SubResource("BoxMesh_pbar_bg")
+
+[node name="Fill" type="MeshInstance3D" parent="PowerBar" unique_id=170413558]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0.01)
+mesh = SubResource("BoxMesh_pbar_fill")
+
+[node name="Controllers" type="Node" parent="." unique_id=736228473]
+
+[node name="HumanInput" type="Node" parent="Controllers" unique_id=2027355251]
+script = ExtResource("3_yh1d3")
+
+[node name="Components" type="Node" parent="." unique_id=340588656]
+
+[node name="BallHandler" type="Node" parent="Components" unique_id=2138207645]
+script = ExtResource("5_1rcb1")
+
+[node name="StateMachine" type="Node" parent="Components" unique_id=1209413348 node_paths=PackedStringArray("InitialState")]
+script = ExtResource("6_7erxw")
+InitialState = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="Components/StateMachine" unique_id=54669097]
+script = ExtResource("7_vu15h")
+
+[node name="Move" type="Node" parent="Components/StateMachine" unique_id=716133128]
+script = ExtResource("8_ectyf")
+
+[node name="Dribble" type="Node" parent="Components/StateMachine" unique_id=1605710541]
+script = ExtResource("8_7erxw")
+
+[node name="Action_Shoot" type="Node" parent="Components/StateMachine" unique_id=1207766329]
+
+[node name="Action_Pass" type="Node" parent="Components/StateMachine" unique_id=83059766]
+
+[node name="Tackle" type="Node" parent="Components/StateMachine" unique_id=1475262344]
+
+[node name="SelectionRing" type="MeshInstance3D" parent="." unique_id=729657777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("CylinderMesh_ring")

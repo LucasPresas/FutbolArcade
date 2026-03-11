@@ -1,37 +1,37 @@
 using Godot;
+using System;
 
-public partial class Ball : RigidBody3D // Or RigidBody3D
+public partial class Ball : RigidBody3D
 {
-    // The ball will also have a StateMachine to handle Freedom, Carried, Passed, Shot
-    [Export] public NodePath StateMachinePath { get; set; }
-
-    public StateMachine StateMachine { get; private set; }
-
     public override void _Ready()
     {
-        AddToGroup("ball");
-        ContactMonitor = true;
-        MaxContactsReported = 5;
-
-        // Permite que ruede libremente
-        AxisLockAngularX = false;
-        AxisLockAngularY = false;
-        AxisLockAngularZ = false;
-
-        if (StateMachinePath != null)
-        {
-            StateMachine = GetNode<StateMachine>(StateMachinePath);
-        }
+        // Conectamos la señal de colisión a nuestro método
+        BodyEntered += OnBallCollision;
     }
 
-    public void ReceiveKick(Vector3 direction, float force)
+    private void OnBallCollision(Node body)
     {
-        // 1. Resetear fuerzas
-        LinearVelocity = Vector3.Zero;
-        AngularVelocity = Vector3.Zero;
+        // Pasamos el nombre a minúsculas para evitar errores de tipeo
+        string name = body.Name.ToString().ToLower();
 
-        // 2. Aplicar el nuevo impulso al centro de masa
-        ApplyCentralImpulse(direction * force);
-        GD.Print($"Pelota pateada hacia: {direction} con fuerza: {force}");
+        // Verificamos si el nombre contiene las palabras clave
+        if (name.Contains("poste") || name.Contains("crossbar") || name.Contains("fisica"))
+        {
+            // Buscamos el nombre del padre (ArcoLocal o ArcoVisitante)
+            string side = "Desconocido";
+            if (body.GetParent() != null)
+            {
+                side = body.GetParent().Name;
+            }
+
+            // Identificamos si es palo o travesaño por el nombre del nodo
+            string part = name.Contains("crossbar") ? "TRAVESSAÑO" : "PALO";
+
+            GD.Print($"----------------------------------");
+            GD.Print($"¡¡ CLANK !! [{side}] -> Pegó en el {part}");
+            GD.Print($"----------------------------------");
+            
+            // Aquí podrías agregar un efecto visual o sonido metálico
+        }
     }
 }

@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://esgebhao138e"]
+
+[ext_resource type="Script" uid="uid://dwkvv55p1vhhi" path="res://Scripts/Actors/Ball.cs" id="1_ribfh"]
+[ext_resource type="Script" uid="uid://dggq4orwv6ah2" path="res://Scripts/Components/BallStateMachine.cs" id="2_ld1wn"]
+[ext_resource type="Script" uid="uid://bydumu167ij2l" path="res://Scripts/States/Ball/BallFreeState.cs" id="3_y65sj"]
+[ext_resource type="Script" uid="uid://x4tc3eo3l21o" path="res://Scripts/States/Ball/BallCarriedState.cs" id="4_5wyrf"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ball"]
+friction = 0.3
+bounce = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ball"]
+albedo_color = Color(1, 0.498039, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ball"]
+material = SubResource("StandardMaterial3D_ball")
+radius = 0.3
+height = 0.6
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ball"]
+radius = 0.3
+
+[node name="Ball" type="RigidBody3D" unique_id=766533103]
+collision_layer = 2
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ball")
+gravity_scale = 0.8
+linear_damp = 0.5
+script = ExtResource("1_ribfh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=332997187]
+mesh = SubResource("SphereMesh_ball")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=830379019]
+shape = SubResource("SphereShape3D_ball")
+
+[node name="StateMachine" type="Node" parent="." unique_id=883465437 node_paths=PackedStringArray("InitialState")]
+script = ExtResource("2_ld1wn")
+InitialState = NodePath("Free")
+
+[node name="Free" type="Node" parent="StateMachine" unique_id=551833433]
+script = ExtResource("3_y65sj")
+
+[node name="Carried" type="Node" parent="StateMachine" unique_id=1383691229]
+script = ExtResource("4_5wyrf")

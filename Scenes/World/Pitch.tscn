@@ -1,0 +1,293 @@
+[gd_scene format=3 uid="uid://c0y25ix1lgypf"]
+
+[ext_resource type="Texture2D" uid="uid://c72y1clc1ku4h" path="res://Assets/Art/Prototype/Green/texture_01.png" id="1_pitch_tex"]
+[ext_resource type="Script" uid="uid://c3jbl02ce0wkk" path="res://Scripts/Objects/Goal.cs" id="2_nr8hu"]
+[ext_resource type="PackedScene" uid="uid://boxak22dh8soc" path="res://Scenes/Actors/Player/PlayerBase.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://esgebhao138e" path="res://Scenes/Actors/Ball/Ball.tscn" id="3_ball"]
+[ext_resource type="Script" uid="uid://doipal332sw7m" path="res://Scripts/Core/GameDebugger.cs" id="4_wyvdb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_texture = ExtResource("1_pitch_tex")
+uv1_scale = Vector3(20, 20, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+material = SubResource("StandardMaterial3D_floor")
+size = Vector3(60, 0.5, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(60, 0.5, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_h"]
+size = Vector3(40, 5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_side"]
+size = Vector3(1, 5, 12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_goal_backwall"]
+size = Vector3(1, 5, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_goal_trigger"]
+size = Vector3(2, 3, 6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_goal"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_post"]
+material = SubResource("StandardMaterial3D_goal")
+size = Vector3(0.15, 2.5, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wyvdb"]
+size = Vector3(1, 2.44458, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_crossbar"]
+material = SubResource("StandardMaterial3D_goal")
+size = Vector3(0.15, 0.15, 6.15)
+
+[node name="Pitch" type="Node3D" unique_id=950425162]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=126927634]
+transform = Transform3D(0.866025, 0.433013, -0.25, 0, 0.5, 0.866025, 0.5, -0.75, 0.433013, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1907370784]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 25, 14)
+fov = 50.0
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1921444351]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1721928732]
+transform = Transform3D(0.9999823, 0.004967674, -0.003276261, -0.004967987, 0.9999876, -8.7438384e-05, 0.0032757865, 0.00010370593, 0.99999464, 0, 0, 0)
+mesh = SubResource("BoxMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1918548816]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Walls" type="Node3D" parent="." unique_id=1223523916]
+
+[node name="WallTop" type="StaticBody3D" parent="Walls" unique_id=1397546407]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -15.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallTop" unique_id=495803054]
+shape = SubResource("BoxShape3D_wall_h")
+
+[node name="WallBottom" type="StaticBody3D" parent="Walls" unique_id=255089818]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 15.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBottom" unique_id=1694115875]
+shape = SubResource("BoxShape3D_wall_h")
+
+[node name="WallLeft_A" type="StaticBody3D" parent="Walls" unique_id=1187068786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 2, -9)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallLeft_A" unique_id=1342335590]
+shape = SubResource("BoxShape3D_wall_side")
+
+[node name="WallLeft_B" type="StaticBody3D" parent="Walls" unique_id=2125935666]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 2, 9)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallLeft_B" unique_id=103836449]
+shape = SubResource("BoxShape3D_wall_side")
+
+[node name="WallRight_A" type="StaticBody3D" parent="Walls" unique_id=745030655]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5, 2, -9)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallRight_A" unique_id=1232498077]
+shape = SubResource("BoxShape3D_wall_side")
+
+[node name="WallRight_B" type="StaticBody3D" parent="Walls" unique_id=99413287]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5, 2, 9)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallRight_B" unique_id=1088867309]
+shape = SubResource("BoxShape3D_wall_side")
+
+[node name="GoalBackLeft" type="StaticBody3D" parent="Walls" unique_id=1489943466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/GoalBackLeft" unique_id=376856165]
+shape = SubResource("BoxShape3D_goal_backwall")
+
+[node name="GoalBackRight" type="StaticBody3D" parent="Walls" unique_id=1242150184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/GoalBackRight" unique_id=1793356078]
+shape = SubResource("BoxShape3D_goal_backwall")
+
+[node name="Arcos" type="Node3D" parent="." unique_id=334658056]
+
+[node name="ArcoLocal" type="Node3D" parent="Arcos" unique_id=628712001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 0, 0)
+
+[node name="GoalArea" type="Area3D" parent="Arcos/ArcoLocal" unique_id=1083773966]
+transform = Transform3D(1, 0, 0, 0, 0.6779363, 0, 0, 0, 1, -1, 1.5, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("2_nr8hu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoLocal/GoalArea" unique_id=523633046]
+shape = SubResource("BoxShape3D_goal_trigger")
+debug_color = Color(0.9562945, 0, 0.5412691, 0.41960785)
+
+[node name="FisicaPosteIzquierdo" type="StaticBody3D" parent="Arcos/ArcoLocal" unique_id=1417053685]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.9932954)
+
+[node name="PostLeft" type="MeshInstance3D" parent="Arcos/ArcoLocal/FisicaPosteIzquierdo" unique_id=2101844663]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0008125305, 1.2529528, -2.2649765e-05)
+mesh = SubResource("BoxMesh_post")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoLocal/FisicaPosteIzquierdo" unique_id=1205438412]
+transform = Transform3D(0.17264946, 0, 0, 0, 1.0254844, 0, 0, 0, 0.14667498, 0, 1.33, 0)
+shape = SubResource("BoxShape3D_wyvdb")
+debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
+
+[node name="FisicaCrossbar" type="StaticBody3D" parent="Arcos/ArcoLocal" unique_id=918666888]
+transform = Transform3D(1, 0, 0, 0, -1.04730724e-07, -0.99999994, 0, 2.3959596, -4.3711385e-08, -0.010671616, 2.5008051, -3.0604572)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoLocal/FisicaCrossbar" unique_id=438420291]
+transform = Transform3D(0.17264946, 0, 0, 0, 1.0254844, 0, 0, 8.3844043e-13, 0.14667498, 0, 1.3095952, 0)
+shape = SubResource("BoxShape3D_wyvdb")
+debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
+
+[node name="Crossbar" type="MeshInstance3D" parent="Arcos/ArcoLocal/FisicaCrossbar" unique_id=253188492]
+transform = Transform3D(1, 0, 0, 0, -1.8243792e-08, 0.4173693, 0, -1.0000001, -4.3711392e-08, 0.010671616, 1.2773409, 0.0008049011)
+mesh = SubResource("BoxMesh_crossbar")
+
+[node name="FisicaPosteDerecho" type="StaticBody3D" parent="Arcos/ArcoLocal" unique_id=2072610361]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.0005612)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoLocal/FisicaPosteDerecho" unique_id=1122142197]
+transform = Transform3D(0.17264946, 0, 0, 0, 1.0254844, 0, 0, 0, 0.14667498, 0, 1.33, 0)
+shape = SubResource("BoxShape3D_wyvdb")
+debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
+
+[node name="PostRight" type="MeshInstance3D" parent="Arcos/ArcoLocal/FisicaPosteDerecho" unique_id=342777809]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("BoxMesh_post")
+
+[node name="ArcoVisitante" type="Node3D" parent="Arcos" unique_id=1728423114]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 16.41528, 0, 0)
+
+[node name="GoalArea" type="Area3D" parent="Arcos/ArcoVisitante" unique_id=1099432239]
+transform = Transform3D(1, 0, 0, 0, 0.6779363, 0, 0, 0, 1, -1, 1.5, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("2_nr8hu")
+GoalType = "Visitante"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/GoalArea" unique_id=826278154]
+shape = SubResource("BoxShape3D_goal_trigger")
+debug_color = Color(0.9562945, 0, 0.5412691, 0.41960785)
+
+[node name="FisicaPosteIzquierdo" type="StaticBody3D" parent="Arcos/ArcoVisitante" unique_id=204233903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.9932954)
+
+[node name="PostLeft" type="MeshInstance3D" parent="Arcos/ArcoVisitante/FisicaPosteIzquierdo" unique_id=435096756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0008125305, 1.2529528, -2.2649765e-05)
+mesh = SubResource("BoxMesh_post")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/FisicaPosteIzquierdo" unique_id=1358650049]
+transform = Transform3D(0.17264946, 0, 0, 0, 1.0254844, 0, 0, 0, 0.14667498, 0, 1.33, 0)
+shape = SubResource("BoxShape3D_wyvdb")
+debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
+
+[node name="FisicaCrossbar" type="StaticBody3D" parent="Arcos/ArcoVisitante" unique_id=1568751961]
+transform = Transform3D(1, 0, 0, 0, -1.04730724e-07, -0.99999994, 0, 2.3959596, -4.3711385e-08, -0.010671616, 2.5008051, -3.0604572)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/FisicaCrossbar" unique_id=335336228]
+transform = Transform3D(0.17264946, 0, 0, 0, 1.0254844, 0, 0, 8.3844043e-13, 0.14667498, 0, 1.3095952, 0)
+shape = SubResource("BoxShape3D_wyvdb")
+debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
+
+[node name="Crossbar" type="MeshInstance3D" parent="Arcos/ArcoVisitante/FisicaCrossbar" unique_id=1575308232]
+transform = Transform3D(1, 0, 0, 0, -1.8243792e-08, 0.4173693, 0, -1.0000001, -4.3711392e-08, 0.010671616, 1.2773409, 0.0008049011)
+mesh = SubResource("BoxMesh_crossbar")
+
+[node name="FisicaPosteDerecho" type="StaticBody3D" parent="Arcos/ArcoVisitante" unique_id=504512424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.0005612)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/FisicaPosteDerecho" unique_id=131843856]
+transform = Transform3D(0.17264946, 0, 0, 0, 1.0254844, 0, 0, 0, 0.14667498, 0, 1.33, 0)
+shape = SubResource("BoxShape3D_wyvdb")
+debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
+
+[node name="PostRight" type="MeshInstance3D" parent="Arcos/ArcoVisitante/FisicaPosteDerecho" unique_id=1266016312]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("BoxMesh_post")
+
+[node name="Player" parent="." unique_id=791283420 node_paths=PackedStringArray("MyGoal", "TargetGoal") instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.2, 0)
+IsUserControlled = true
+MyGoal = NodePath("../Arcos/ArcoLocal/GoalArea")
+TargetGoal = NodePath("../Arcos/ArcoVisitante/GoalArea")
+
+[node name="Ball" parent="." unique_id=1457621068 instance=ExtResource("3_ball")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1237241473]
+
+[node name="ScoreLabel" type="Label" parent="UI" unique_id=1792914723]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_top = 10.0
+offset_right = 60.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 30
+text = "0  -  0"
+horizontal_alignment = 1
+
+[node name="PassChargeLabel" type="Label" parent="UI" unique_id=125416307]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -60.0
+offset_right = 80.0
+offset_bottom = -20.0
+theme_override_font_sizes/font_size = 24
+text = "Pase: 0%"
+horizontal_alignment = 1
+
+[node name="ShootLabel" type="Label" parent="UI" unique_id=2038402930]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -100.0
+offset_right = 80.0
+offset_bottom = -65.0
+theme_override_font_sizes/font_size = 24
+text = "Disparo: 0%"
+horizontal_alignment = 1
+
+[node name="ControlsPanel" type="Panel" parent="UI" unique_id=1703954361]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 260.0
+offset_bottom = 160.0
+
+[node name="ControlsLabel" type="Label" parent="UI/ControlsPanel" unique_id=416640642]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Controles:
+WASD / Flechas - Mover
+Z (Mantener) - Disparar
+X (Mantener) - Pasar
+C - Robar Pelota"
+
+[node name="GameDebugger" type="Node" parent="." unique_id=2012787225]
+script = ExtResource("4_wyvdb")

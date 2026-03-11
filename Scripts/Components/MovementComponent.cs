@@ -1,49 +1,74 @@
 using Godot;
+using System;
 
-public partial class MovementComponent : ComponentBase
+public partial class MovementComponent : Node
 {
-    [Export] public float MaxSpeed { get; set; } = 8.0f;
-    [Export] public float Acceleration { get; set; } = 40.0f;
-    [Export] public float Friction { get; set; } = 40.0f;
+    private PlayerBase _player;
 
-    /// <summary>
-    /// Call this inside _PhysicsProcess of a State to apply movement.
-    /// </summary>
-    public void Move(Vector3 inputDirection, double delta)
+    public override void _Ready()
     {
-        if (Actor == null) return;
-
-        Vector3 velocity = Actor.Velocity;
-
-        if (inputDirection != Vector3.Zero)
+        // Buscamos al PlayerBase subiendo en la jerarquía
+        _player = GetParent().GetParentOrNull<PlayerBase>();
+        
+        if (_player == null)
         {
-            // Accelerate towards the input direction
-            velocity = velocity.MoveToward(inputDirection * MaxSpeed, Acceleration * (float)delta);
-            
-            // Optional: Flip visually if we have a Visuals node
-            // Flipping logic should ideally be in another component or ActorBase, but keeping it simple here.
+            GD.PrintErr("[MovementComponent] ERROR: No se encontró PlayerBase en la raíz.");
         }
         else
         {
-            // Apply friction
-            velocity = velocity.MoveToward(Vector3.Zero, Friction * (float)delta);
+            GD.Print("[MovementComponent] Iniciado y conectado a PlayerBase.");
         }
+    }
 
-        // Preserve original Y velocity for gravity from CharacterBase
-        velocity.Y = Actor.Velocity.Y;
-        
-        // Asignamos la velocidad calculada al CharacterBody3D
-        Actor.Velocity = velocity;
-        
-        // MoveAndSlide integra la velocidad
-        Actor.MoveAndSlide();
+    public override void _PhysicsProcess(double delta)
+    {
+        // Validaciones de seguridad
+        if (_player == null || _player.Controller == null || _player.Stats == null) return;
 
-        // Rotate the entire Actor so GrabArea + DribblePoint face movement direction
-        // Negate both components: Atan2(-X, -Z) makes -Z local face the input direction
-        if (inputDirection.LengthSquared() > 0)
+        Vector3 direction = _player.Controller.GetMoveDirection();
+        Vector3 velocity = _player.Velocity;
+
+        // 1. Aplicar Gravedad
+        if (!_player.IsOnFloor())
         {
-            float targetAngle = Mathf.Atan2(-inputDirection.X, -inputDirection.Z);
-            Actor.Rotation = new Vector3(0, targetAngle, 0);
+            velocity.Y -= 9.8f * (float)delta;
         }
+
+        // 2. Lógica de Movimiento y Rotación
+        if (direction != Vector3.Zero)
+        {
+            // Movimiento horizontal
+            velocity.X = direction.X * _player.Stats.Speed;
+            velocity.Z = direction.Z * _player.Stats.Speed;
+            
+            // --- ROTACIÓN DEL NODO ROTATOR ---
+            Node3D rotator = _player.GetNodeOrNull<Node3D>("Rotator");
+            if (rotator != null)
+            {
+                // Calculamos el ángulo hacia donde nos movemos.
+                // Usamos Atan2(X, Z) para obtener la orientación en el plano del suelo.
+                float targetAngle = Mathf.Atan2(-direction.X, -direction.Z);
+                
+                // Aplicamos LerpAngle para que el giro no sea instantáneo (se ve más profesional)
+                float rotationSpeed = _player.Stats.RotationSpeed;
+                float currentRotationY = rotator.Rotation.Y;
+                
+                rotator.Rotation = new Vector3(
+                    0,
+                    (float)Mathf.LerpAngle(currentRotationY, targetAngle, rotationSpeed * (float)delta),
+                    0
+                );
+            }
+        }
+        else
+        {
+            // Frenado progresivo (Fricción)
+            velocity.X = Mathf.MoveToward(velocity.X, 0, _player.Stats.Acceleration * (float)delta);
+            velocity.Z = Mathf.MoveToward(velocity.Z, 0, _player.Stats.Acceleration * (float)delta);
+        }
+
+        // 3. Aplicar velocidad y ejecutar físicas
+        _player.Velocity = velocity;
+        _player.MoveAndSlide();
     }
 }

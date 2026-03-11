@@ -2,25 +2,19 @@ using Godot;
 
 public abstract partial class State : Node
 {
-    protected StateMachine StateMachine;
+    public virtual void Enter() { }
+    public virtual void Exit() { }
+    public virtual void Update(float delta) { }
+    public virtual void PhysicsUpdate(float delta) { }
 
-    public override void _Ready()
+    public new T GetOwner<T>() where T : Node
     {
-        StateMachine = GetParent<StateMachine>();
-    }
-
-    public virtual void Enter(Godot.Collections.Dictionary<string, Variant> message = null)
-    {
-        // Setup code here
-    }
-
-    public virtual void Exit()
-    {
-        // Cleanup code here
-    }
-
-    public virtual void Update(double delta)
-    {
-        // Custom logic here, override in specific states
+        Node current = GetParent();
+        while (current != null)
+        {
+            if (current is T target) return target;
+            current = current.GetParent();
+        }
+        return null;
     }
 }
