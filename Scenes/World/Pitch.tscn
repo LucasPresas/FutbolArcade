@@ -17,17 +17,19 @@ size = Vector3(60, 0.5, 40)
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(60, 0.5, 40)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wall_h"]
-size = Vector3(40, 5, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_s0v0t"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wall_side"]
-size = Vector3(1, 5, 12)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_goal_backwall"]
-size = Vector3(1, 5, 6)
+[sub_resource type="BoxShape3D" id="BoxShape3D_nr8hu"]
+size = Vector3(1, 1, 1.0629883)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_goal_trigger"]
-size = Vector3(2, 3, 6)
+size = Vector3(2, 3.6953125, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nr8hu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s0v0t"]
+blend_mode = 3
+albedo_color = Color(1.9201814e-05, 1.2397882, 1.5007104, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_goal"]
 
@@ -41,6 +43,10 @@ size = Vector3(1, 2.44458, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_crossbar"]
 material = SubResource("StandardMaterial3D_goal")
 size = Vector3(0.15, 0.15, 6.15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nr8hu"]
+blend_mode = 1
+albedo_color = Color(1, 0, 0, 1)
 
 [node name="Pitch" type="Node3D" unique_id=950425162]
 
@@ -64,53 +70,48 @@ shape = SubResource("BoxShape3D_floor")
 
 [node name="Walls" type="Node3D" parent="." unique_id=1223523916]
 
-[node name="WallTop" type="StaticBody3D" parent="Walls" unique_id=1397546407]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -15.5)
+[node name="LateralIZQ" type="StaticBody3D" parent="Walls" unique_id=800237132]
+transform = Transform3D(0.109936625, 0, 0, 0, 7.055447, 0, 0, 0, 24.168058, -20.683933, 3.162987, -1.1621873)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallTop" unique_id=495803054]
-shape = SubResource("BoxShape3D_wall_h")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/LateralIZQ" unique_id=1746149359]
 
-[node name="WallBottom" type="StaticBody3D" parent="Walls" unique_id=255089818]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 15.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ/CollisionShape3D" unique_id=391913549]
+transform = Transform3D(0.9999998, 0, 0, 0, 1, 0, 0, 0, 1.1019931, 0, 0, 0.005334366)
+gi_mode = 0
+mesh = SubResource("BoxMesh_s0v0t")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBottom" unique_id=1694115875]
-shape = SubResource("BoxShape3D_wall_h")
+[node name="LateralIZQ2" type="StaticBody3D" parent="Walls" unique_id=1159785890]
+transform = Transform3D(0.109936625, 0, 0, 0, 7.055447, 0, 0, 0, 24.168058, 20.810799, 3.162987, -1.1621873)
+collision_mask = 7
 
-[node name="WallLeft_A" type="StaticBody3D" parent="Walls" unique_id=1187068786]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 2, -9)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/LateralIZQ2" unique_id=903096810]
+transform = Transform3D(0.9999997, 0, 0, 0, 0.99999434, 0, 0, 0, 0.9999998, 0, 0, 0.007219214)
+shape = SubResource("BoxShape3D_nr8hu")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallLeft_A" unique_id=1342335590]
-shape = SubResource("BoxShape3D_wall_side")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ2/CollisionShape3D" unique_id=2066155143]
+transform = Transform3D(0.9999998, 0, 0, 0, 1, 0, 0, 0, 1.1019931, 0.35243225, 0, 0.00533437)
+gi_mode = 0
+mesh = SubResource("BoxMesh_s0v0t")
 
-[node name="WallLeft_B" type="StaticBody3D" parent="Walls" unique_id=2125935666]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 2, 9)
+[node name="LateralIZQ3" type="StaticBody3D" parent="Walls" unique_id=231010432]
+transform = Transform3D(-4.8054822e-09, 0, 37.06988, 0, 7.0554466, 0, -0.10993662, 0, -1.6203761e-06, -0.17659092, 3.162987, -14.330767)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallLeft_B" unique_id=103836449]
-shape = SubResource("BoxShape3D_wall_side")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/LateralIZQ3" unique_id=2010131180]
 
-[node name="WallRight_A" type="StaticBody3D" parent="Walls" unique_id=745030655]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5, 2, -9)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ3/CollisionShape3D" unique_id=394937597]
+transform = Transform3D(0.9999998, 0, -1.8189894e-12, 0, 1.0000001, 0, -1.3877788e-17, 0, 1.1337931, 0, 0, 0.0053343666)
+gi_mode = 0
+mesh = SubResource("BoxMesh_s0v0t")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallRight_A" unique_id=1232498077]
-shape = SubResource("BoxShape3D_wall_side")
+[node name="LateralIZQ4" type="StaticBody3D" parent="Walls" unique_id=301217347]
+transform = Transform3D(-4.8054822e-09, 0, 37.06988, 0, 7.0554466, 0, -0.10993662, 0, -1.6203761e-06, -0.17659092, 3.162987, 12.319075)
 
-[node name="WallRight_B" type="StaticBody3D" parent="Walls" unique_id=99413287]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5, 2, 9)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/LateralIZQ4" unique_id=428373416]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallRight_B" unique_id=1088867309]
-shape = SubResource("BoxShape3D_wall_side")
-
-[node name="GoalBackLeft" type="StaticBody3D" parent="Walls" unique_id=1489943466]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 2, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/GoalBackLeft" unique_id=376856165]
-shape = SubResource("BoxShape3D_goal_backwall")
-
-[node name="GoalBackRight" type="StaticBody3D" parent="Walls" unique_id=1242150184]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 2, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/GoalBackRight" unique_id=1793356078]
-shape = SubResource("BoxShape3D_goal_backwall")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ4/CollisionShape3D" unique_id=1390211691]
+transform = Transform3D(0.9999998, 0, -1.8189894e-12, 0, 1.0000001, 0, -1.3877788e-17, 0, 1.1337931, 0, 0, 0.0053343666)
+gi_mode = 0
+mesh = SubResource("BoxMesh_s0v0t")
 
 [node name="Arcos" type="Node3D" parent="." unique_id=334658056]
 
@@ -118,15 +119,22 @@ shape = SubResource("BoxShape3D_goal_backwall")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 0, 0)
 
 [node name="GoalArea" type="Area3D" parent="Arcos/ArcoLocal" unique_id=1083773966]
-transform = Transform3D(1, 0, 0, 0, 0.6779363, 0, 0, 0, 1, -1, 1.5, 0)
+transform = Transform3D(0.021040857, 0, 0, 0, 0.4986814, 0, 0, 0, 0.96900594, -0.069467545, 1.5268039, 0)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 script = ExtResource("2_nr8hu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoLocal/GoalArea" unique_id=523633046]
+transform = Transform3D(1, 0, 0, 0, 1.2575145, 0, 0, 0, 1, 0, -0.53022814, 0)
 shape = SubResource("BoxShape3D_goal_trigger")
-debug_color = Color(0.9562945, 0, 0.5412691, 0.41960785)
+debug_color = Color(15.979153, 5.678101, 13.576103, 0.41960785)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arcos/ArcoLocal/GoalArea/CollisionShape3D" unique_id=1528753023]
+transform = Transform3D(1, 0, 0, 0, 3.6994662, 0, 0, 0, 6.01527, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_nr8hu")
+surface_material_override/0 = SubResource("StandardMaterial3D_s0v0t")
 
 [node name="FisicaPosteIzquierdo" type="StaticBody3D" parent="Arcos/ArcoLocal" unique_id=1417053685]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.9932954)
@@ -164,62 +172,67 @@ debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 mesh = SubResource("BoxMesh_post")
 
-[node name="ArcoVisitante" type="Node3D" parent="Arcos" unique_id=1728423114]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 16.41528, 0, 0)
+[node name="ArcoVisitante" type="Node3D" parent="Arcos" unique_id=683863714]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 20.654938, 0, 0)
 
-[node name="GoalArea" type="Area3D" parent="Arcos/ArcoVisitante" unique_id=1099432239]
-transform = Transform3D(1, 0, 0, 0, 0.6779363, 0, 0, 0, 1, -1, 1.5, 0)
+[node name="GoalArea" type="Area3D" parent="Arcos/ArcoVisitante" unique_id=1344651214]
+transform = Transform3D(0.021040857, 0, 0, 0, 0.4986814, 0, 0, 0, 0.96900594, -0.069467545, 1.5268039, 0)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 script = ExtResource("2_nr8hu")
-GoalType = "Visitante"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/GoalArea" unique_id=826278154]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/GoalArea" unique_id=771621597]
+transform = Transform3D(1, 0, 0, 0, 1.2575145, 0, 0, 0, 1, 0, -0.53022814, 0)
 shape = SubResource("BoxShape3D_goal_trigger")
-debug_color = Color(0.9562945, 0, 0.5412691, 0.41960785)
+debug_color = Color(15.979153, 5.678101, 13.576103, 0.41960785)
 
-[node name="FisicaPosteIzquierdo" type="StaticBody3D" parent="Arcos/ArcoVisitante" unique_id=204233903]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arcos/ArcoVisitante/GoalArea/CollisionShape3D" unique_id=15054355]
+transform = Transform3D(1, 0, 0, 0, 3.6994662, 0, 0, 0, 6.01527, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_nr8hu")
+surface_material_override/0 = SubResource("StandardMaterial3D_nr8hu")
+
+[node name="FisicaPosteIzquierdo" type="StaticBody3D" parent="Arcos/ArcoVisitante" unique_id=1778204230]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.9932954)
 
-[node name="PostLeft" type="MeshInstance3D" parent="Arcos/ArcoVisitante/FisicaPosteIzquierdo" unique_id=435096756]
+[node name="PostLeft" type="MeshInstance3D" parent="Arcos/ArcoVisitante/FisicaPosteIzquierdo" unique_id=480837541]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0008125305, 1.2529528, -2.2649765e-05)
 mesh = SubResource("BoxMesh_post")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/FisicaPosteIzquierdo" unique_id=1358650049]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/FisicaPosteIzquierdo" unique_id=208827014]
 transform = Transform3D(0.17264946, 0, 0, 0, 1.0254844, 0, 0, 0, 0.14667498, 0, 1.33, 0)
 shape = SubResource("BoxShape3D_wyvdb")
 debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
 
-[node name="FisicaCrossbar" type="StaticBody3D" parent="Arcos/ArcoVisitante" unique_id=1568751961]
+[node name="FisicaCrossbar" type="StaticBody3D" parent="Arcos/ArcoVisitante" unique_id=1323267301]
 transform = Transform3D(1, 0, 0, 0, -1.04730724e-07, -0.99999994, 0, 2.3959596, -4.3711385e-08, -0.010671616, 2.5008051, -3.0604572)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/FisicaCrossbar" unique_id=335336228]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/FisicaCrossbar" unique_id=1509774453]
 transform = Transform3D(0.17264946, 0, 0, 0, 1.0254844, 0, 0, 8.3844043e-13, 0.14667498, 0, 1.3095952, 0)
 shape = SubResource("BoxShape3D_wyvdb")
 debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
 
-[node name="Crossbar" type="MeshInstance3D" parent="Arcos/ArcoVisitante/FisicaCrossbar" unique_id=1575308232]
+[node name="Crossbar" type="MeshInstance3D" parent="Arcos/ArcoVisitante/FisicaCrossbar" unique_id=923307947]
 transform = Transform3D(1, 0, 0, 0, -1.8243792e-08, 0.4173693, 0, -1.0000001, -4.3711392e-08, 0.010671616, 1.2773409, 0.0008049011)
 mesh = SubResource("BoxMesh_crossbar")
 
-[node name="FisicaPosteDerecho" type="StaticBody3D" parent="Arcos/ArcoVisitante" unique_id=504512424]
+[node name="FisicaPosteDerecho" type="StaticBody3D" parent="Arcos/ArcoVisitante" unique_id=450466043]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.0005612)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/FisicaPosteDerecho" unique_id=131843856]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arcos/ArcoVisitante/FisicaPosteDerecho" unique_id=798547893]
 transform = Transform3D(0.17264946, 0, 0, 0, 1.0254844, 0, 0, 0, 0.14667498, 0, 1.33, 0)
 shape = SubResource("BoxShape3D_wyvdb")
 debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
 
-[node name="PostRight" type="MeshInstance3D" parent="Arcos/ArcoVisitante/FisicaPosteDerecho" unique_id=1266016312]
+[node name="PostRight" type="MeshInstance3D" parent="Arcos/ArcoVisitante/FisicaPosteDerecho" unique_id=2078345333]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 mesh = SubResource("BoxMesh_post")
 
-[node name="Player" parent="." unique_id=791283420 node_paths=PackedStringArray("MyGoal", "TargetGoal") instance=ExtResource("2_player")]
+[node name="Player" parent="." unique_id=791283420 node_paths=PackedStringArray("MyGoal") instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.2, 0)
 IsUserControlled = true
 MyGoal = NodePath("../Arcos/ArcoLocal/GoalArea")
-TargetGoal = NodePath("../Arcos/ArcoVisitante/GoalArea")
 
 [node name="Ball" parent="." unique_id=1457621068 instance=ExtResource("3_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)

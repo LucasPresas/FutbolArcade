@@ -17,6 +17,10 @@ public partial class PlayerBase : CharacterBody3D
     [Export] public Goal MyGoal;
     [Export] public Goal TargetGoal;
 
+    [ExportGroup("UI del Jugador")]
+    // Referencia al Label de texto visual
+    [Export] public Label ChargeLabel; 
+
     public IController Controller;
 
     public override void _Ready()
@@ -26,6 +30,13 @@ public partial class PlayerBase : CharacterBody3D
         {
             GD.PrintErr($"[PlayerBase] {Name}: ERROR. Falta asignar componentes en el Inspector.");
             return;
+        }
+
+        // Nos aseguramos de que el texto de carga arranque invisible y en 0%
+        if (ChargeLabel != null)
+        {
+            ChargeLabel.Visible = false;
+            ChargeLabel.Text = "0%";
         }
 
         // --- SELECTOR DE CEREBRO ---
@@ -52,7 +63,6 @@ public partial class PlayerBase : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
-        // El movimiento real sucede en los estados (MoveState, IdleState)
-        // Pero aquí podrías poner lógica global si fuera necesario.
+        // El movimiento real sucede en los estados (MoveState, IdleState, DribbleState)
     }
 }
