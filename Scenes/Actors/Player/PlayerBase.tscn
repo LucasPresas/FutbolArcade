@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c5rt3f702wnw8" path="res://Scripts/Actors/PlayerBase.cs" id="1_7k3tc"]
 [ext_resource type="Script" uid="uid://cebe1m60b7cx8" path="res://Scripts/Resources/PlayerStats.cs" id="2_7erxw"]
 [ext_resource type="Script" uid="uid://ixnk6m8qvsnh" path="res://Scripts/Controllers/HumanController.cs" id="3_yh1d3"]
+[ext_resource type="Script" uid="uid://w20i6cbpqpak" path="res://Scripts/Core/AiController.cs" id="4_vu15h"]
 [ext_resource type="Script" uid="uid://cp27vyea5s7yb" path="res://Scripts/Components/BallHandler.cs" id="5_1rcb1"]
 [ext_resource type="Script" uid="uid://b4jedltghwdwn" path="res://Scripts/Components/PlayerStateMachine.cs" id="6_7erxw"]
 [ext_resource type="Script" uid="uid://deoceekvepplt" path="res://Scripts/States/Player/PlayerIdleState.cs" id="7_vu15h"]
@@ -33,6 +34,8 @@ size = Vector3(1.2, 1, 1)
 albedo_color = Color(0, 0.06666667, 0.3372549, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_6jcbw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vu15h"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_pass"]
 radius = 8.0
@@ -1006,6 +1009,15 @@ transform = Transform3D(0.040768333, 0, 1.0012654, -0.94578934, -0.1218047, 0.04
 visible = false
 mesh = SubResource("PrismMesh_6jcbw")
 
+[node name="TackleArea" type="Area3D" parent="Rotator" unique_id=2027198167]
+transform = Transform3D(1.0844283, 0, 0, 0, 1, 0, 0, 0, 1.7350748, 0, -0.46902728, -1.2073673)
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rotator/TackleArea" unique_id=1192130826]
+shape = SubResource("BoxShape3D_vu15h")
+debug_color = Color(0.93082225, 0.02832793, 0.64574707, 0.41960785)
+
 [node name="PassScanArea" type="Area3D" parent="." unique_id=1405300479]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 visible = false
@@ -1031,10 +1043,14 @@ mesh = SubResource("BoxMesh_pbar_fill")
 [node name="HumanInput" type="Node" parent="Controllers" unique_id=2027355251]
 script = ExtResource("3_yh1d3")
 
+[node name="IAController" type="Node" parent="Controllers" unique_id=896421232]
+script = ExtResource("4_vu15h")
+
 [node name="Components" type="Node" parent="." unique_id=340588656]
 
-[node name="BallHandler" type="Node" parent="Components" unique_id=2138207645]
+[node name="BallHandler" type="Node" parent="Components" unique_id=2138207645 node_paths=PackedStringArray("TackleArea")]
 script = ExtResource("5_1rcb1")
+TackleArea = NodePath("../../Rotator/TackleArea")
 
 [node name="StateMachine" type="Node" parent="Components" unique_id=1209413348 node_paths=PackedStringArray("InitialState")]
 script = ExtResource("6_7erxw")

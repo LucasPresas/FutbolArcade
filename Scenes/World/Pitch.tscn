@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://boxak22dh8soc" path="res://Scenes/Actors/Player/PlayerBase.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://esgebhao138e" path="res://Scenes/Actors/Ball/Ball.tscn" id="3_ball"]
 [ext_resource type="Script" uid="uid://doipal332sw7m" path="res://Scripts/Core/GameDebugger.cs" id="4_wyvdb"]
+[ext_resource type="Script" uid="uid://c4u6rf0c8qp51" path="res://Scripts/Core/MatchManager.cs" id="6_matchmanager"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
 albedo_texture = ExtResource("1_pitch_tex")
@@ -17,10 +18,27 @@ size = Vector3(60, 0.5, 40)
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(60, 0.5, 40)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_s0v0t"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s0v0t"]
+size = Vector3(1, 1, 1.0979004)
+
 [sub_resource type="BoxMesh" id="BoxMesh_s0v0t"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7qfh6"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_nr8hu"]
-size = Vector3(1, 1, 1.0629883)
+size = Vector3(1, 1, 1.0754395)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d3nus"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7qfh6"]
+size = Vector3(1, 1, 1.1205444)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nr8hu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d3nus"]
+size = Vector3(1, 35.965, 42.165)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_goal_trigger"]
 size = Vector3(2, 3.6953125, 6)
@@ -48,6 +66,12 @@ size = Vector3(0.15, 0.15, 6.15)
 blend_mode = 1
 albedo_color = Color(1, 0, 0, 1)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_7qfh6"]
+viewport_path = NodePath("ChargeBarAnchor/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_d3nus"]
+viewport_path = NodePath("ChargeBarAnchor/SubViewport")
+
 [node name="Pitch" type="Node3D" unique_id=950425162]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=126927634]
@@ -62,54 +86,80 @@ fov = 50.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1721928732]
-transform = Transform3D(0.9999823, 0.004967674, -0.003276261, -0.004967987, 0.9999876, -8.7438384e-05, 0.0032757865, 0.00010370593, 0.99999464, 0, 0, 0)
+transform = Transform3D(0.9999823, 0.004967674, -0.003276261, -0.004967987, 0.9999876, -8.7438384e-05, 0.0032757865, 0.00010370593, 0.99999464, 0.050137043, 0, -0.01741314)
 mesh = SubResource("BoxMesh_floor")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1918548816]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Techo" type="StaticBody3D" parent="." unique_id=111479816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.459611, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Techo" unique_id=1217898162]
+transform = Transform3D(0.9999823, 0.004967674, -0.003276261, -0.004967987, 0.9999876, -8.7438384e-05, 0.0032757865, 0.00010370593, 0.99999464, 0.050137043, 0, -0.01741314)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Techo" unique_id=1274552873]
 shape = SubResource("BoxShape3D_floor")
 
 [node name="Walls" type="Node3D" parent="." unique_id=1223523916]
 
 [node name="LateralIZQ" type="StaticBody3D" parent="Walls" unique_id=800237132]
 transform = Transform3D(0.109936625, 0, 0, 0, 7.055447, 0, 0, 0, 24.168058, -20.683933, 3.162987, -1.1621873)
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_s0v0t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/LateralIZQ" unique_id=1746149359]
+transform = Transform3D(0.9999997, 0, 0, 0, 0.9999975, 0, 0, 0, 0.9999998, 0, 0, 0.0042724647)
+shape = SubResource("BoxShape3D_s0v0t")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ/CollisionShape3D" unique_id=391913549]
-transform = Transform3D(0.9999998, 0, 0, 0, 1, 0, 0, 0, 1.1019931, 0, 0, 0.005334366)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ" unique_id=391913549]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999994, 0, 0, 0, 1.1019931, 0, 0, 0.005334366)
+visible = false
 gi_mode = 0
 mesh = SubResource("BoxMesh_s0v0t")
 
 [node name="LateralIZQ2" type="StaticBody3D" parent="Walls" unique_id=1159785890]
 transform = Transform3D(0.109936625, 0, 0, 0, 7.055447, 0, 0, 0, 24.168058, 20.810799, 3.162987, -1.1621873)
-collision_mask = 7
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_7qfh6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/LateralIZQ2" unique_id=903096810]
-transform = Transform3D(0.9999997, 0, 0, 0, 0.99999434, 0, 0, 0, 0.9999998, 0, 0, 0.007219214)
+transform = Transform3D(0.9999997, 0, 0, 0, 0.99999386, 0, 0, 0, 0.9999998, 0, 0, 0.0009936243)
 shape = SubResource("BoxShape3D_nr8hu")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ2/CollisionShape3D" unique_id=2066155143]
-transform = Transform3D(0.9999998, 0, 0, 0, 1, 0, 0, 0, 1.1019931, 0.35243225, 0, 0.00533437)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ2" unique_id=2066155143]
+transform = Transform3D(0.9999995, 0, 0, 0, 0.99999404, 0, 0, 0, 1.101993, 0.09753418, -0.0011900365, 0.010667797)
+visible = false
 gi_mode = 0
 mesh = SubResource("BoxMesh_s0v0t")
 
 [node name="LateralIZQ3" type="StaticBody3D" parent="Walls" unique_id=231010432]
 transform = Transform3D(-4.8054822e-09, 0, 37.06988, 0, 7.0554466, 0, -0.10993662, 0, -1.6203761e-06, -0.17659092, 3.162987, -14.330767)
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_d3nus")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/LateralIZQ3" unique_id=2010131180]
+transform = Transform3D(1, 0, -4.5474735e-12, 0, 1.0000004, 0, -8.049117e-16, 0, 1, 0, 0, 0.009918213)
+shape = SubResource("BoxShape3D_7qfh6")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ3/CollisionShape3D" unique_id=394937597]
-transform = Transform3D(0.9999998, 0, -1.8189894e-12, 0, 1.0000001, 0, -1.3877788e-17, 0, 1.1337931, 0, 0, 0.0053343666)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ3" unique_id=394937597]
+transform = Transform3D(0.9999998, 0, -3.637979e-12, 0, 1.0000002, 0, -2.7755576e-17, 0, 1.1337931, 0, 0, 0.0053343666)
+visible = false
 gi_mode = 0
 mesh = SubResource("BoxMesh_s0v0t")
 
 [node name="LateralIZQ4" type="StaticBody3D" parent="Walls" unique_id=301217347]
-transform = Transform3D(-4.8054822e-09, 0, 37.06988, 0, 7.0554466, 0, -0.10993662, 0, -1.6203761e-06, -0.17659092, 3.162987, 12.319075)
+transform = Transform3D(-1.3113416e-10, 0, 1, 0, 0.19, 0, -0.003, 0, -4.371139e-08, -0.17659092, 3.162987, 12.319075)
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_nr8hu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/LateralIZQ4" unique_id=428373416]
+transform = Transform3D(1, 0, -4.5474735e-12, 0, 1.0000004, 0, -1.2490009e-15, 0, 1, 0, 0, 0.0063476563)
+shape = SubResource("BoxShape3D_d3nus")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ4/CollisionShape3D" unique_id=1390211691]
-transform = Transform3D(0.9999998, 0, -1.8189894e-12, 0, 1.0000001, 0, -1.3877788e-17, 0, 1.1337931, 0, 0, 0.0053343666)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/LateralIZQ4" unique_id=1390211691]
+transform = Transform3D(36.925, 0, 1.1692681e-15, 0, 36.925, 0, -1.0310501e-15, 0, 41.875, 0, 0, 0.0053343666)
+visible = false
 gi_mode = 0
 mesh = SubResource("BoxMesh_s0v0t")
 
@@ -229,10 +279,15 @@ debug_color = Color(0.9486279, 2.695322e-06, 0.57976276, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 mesh = SubResource("BoxMesh_post")
 
-[node name="Player" parent="." unique_id=791283420 node_paths=PackedStringArray("MyGoal") instance=ExtResource("2_player")]
+[node name="Player" parent="." unique_id=791283420 node_paths=PackedStringArray("HumanControllerNode", "MyGoal", "TargetGoal") instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.2, 0)
 IsUserControlled = true
+HumanControllerNode = NodePath("Controllers/HumanInput")
 MyGoal = NodePath("../Arcos/ArcoLocal/GoalArea")
+TargetGoal = NodePath("../Arcos/ArcoVisitante/GoalArea")
+
+[node name="Sprite3D" parent="Player/ChargeBarAnchor" parent_id_path=PackedInt32Array(791283420, 434359985) index="1" unique_id=1271198217]
+texture = SubResource("ViewportTexture_7qfh6")
 
 [node name="Ball" parent="." unique_id=1457621068 instance=ExtResource("3_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
@@ -304,3 +359,18 @@ C - Robar Pelota"
 
 [node name="GameDebugger" type="Node" parent="." unique_id=2012787225]
 script = ExtResource("4_wyvdb")
+
+[node name="Enemy" parent="." unique_id=1394387626 node_paths=PackedStringArray("AiControllerNode", "MyGoal", "TargetGoal") instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.603699, 0, 0)
+AiControllerNode = NodePath("Controllers/IAController")
+MyGoal = NodePath("../Arcos/ArcoVisitante/GoalArea")
+TargetGoal = NodePath("../Arcos/ArcoLocal/GoalArea")
+
+[node name="Sprite3D" parent="Enemy/ChargeBarAnchor" parent_id_path=PackedInt32Array(1394387626, 434359985) index="1" unique_id=1271198217]
+texture = SubResource("ViewportTexture_d3nus")
+
+[node name="MatchManager" type="Node" parent="." unique_id=692830543]
+script = ExtResource("6_matchmanager")
+
+[editable path="Player"]
+[editable path="Enemy"]
