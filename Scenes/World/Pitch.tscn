@@ -66,10 +66,10 @@ size = Vector3(0.15, 0.15, 6.15)
 blend_mode = 1
 albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_7qfh6"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_s0v0t"]
 viewport_path = NodePath("ChargeBarAnchor/SubViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_d3nus"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_7qfh6"]
 viewport_path = NodePath("ChargeBarAnchor/SubViewport")
 
 [node name="Pitch" type="Node3D" unique_id=950425162]
@@ -86,7 +86,7 @@ fov = 50.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1721928732]
-transform = Transform3D(0.9999823, 0.004967674, -0.003276261, -0.004967987, 0.9999876, -8.7438384e-05, 0.0032757865, 0.00010370593, 0.99999464, 0.050137043, 0, -0.01741314)
+transform = Transform3D(0.9999823, 0.004967674, -0.003276261, -0.004967987, 0.9999876, -8.7438384e-05, 0.0032757865, 0.00010370593, 0.99999464, -6.7962756, -0.7685666, 0.31476498)
 mesh = SubResource("BoxMesh_floor")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1918548816]
@@ -287,7 +287,7 @@ MyGoal = NodePath("../Arcos/ArcoLocal/GoalArea")
 TargetGoal = NodePath("../Arcos/ArcoVisitante/GoalArea")
 
 [node name="Sprite3D" parent="Player/ChargeBarAnchor" parent_id_path=PackedInt32Array(791283420, 434359985) index="1" unique_id=1271198217]
-texture = SubResource("ViewportTexture_7qfh6")
+texture = SubResource("ViewportTexture_s0v0t")
 
 [node name="Ball" parent="." unique_id=1457621068 instance=ExtResource("3_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
@@ -367,7 +367,7 @@ MyGoal = NodePath("../Arcos/ArcoVisitante/GoalArea")
 TargetGoal = NodePath("../Arcos/ArcoLocal/GoalArea")
 
 [node name="Sprite3D" parent="Enemy/ChargeBarAnchor" parent_id_path=PackedInt32Array(1394387626, 434359985) index="1" unique_id=1271198217]
-texture = SubResource("ViewportTexture_d3nus")
+texture = SubResource("ViewportTexture_7qfh6")
 
 [node name="MatchManager" type="Node" parent="." unique_id=692830543]
 script = ExtResource("6_matchmanager")

@@ -3,36 +3,31 @@ using System;
 
 public partial class MatchManager : Node
 {
-    // Esta variable DEBE aparecer en el Inspector después de hacer Build
     [Export] public float ResetDelay = 3.0f;
-
     private Ball _ball;
 
     public override void _Ready()
     {
-        // Buscamos la pelota
         _ball = GetTree().CurrentScene.FindChild("Ball") as Ball;
-        
-        // Conectamos la señal del gol
         Goal.OnGoalScored += HandleGoal;
-        
-        GD.Print("MatchManager listo y esperando goles...");
+    }
+
+    public override void _ExitTree()
+    {
+        Goal.OnGoalScored -= HandleGoal;
     }
 
     private void HandleGoal(string teamName)
     {
-        GD.Print($"¡GOL DE {teamName}! Reseteando en {ResetDelay} segundos...");
-        
-        // Pausamos jugadores
+        if (!IsInstanceValid(this) || !IsInsideTree()) return;
         SetPlayersActive(false);
-
-        // Timer para resetear
         GetTree().CreateTimer(ResetDelay).Timeout += ResetMatch;
     }
 
     private void ResetMatch()
     {
-        // Reset Pelota
+        if (!IsInstanceValid(this) || !IsInsideTree()) return;
+
         if (_ball != null)
         {
             _ball.GlobalPosition = new Vector3(0, 2, 0);
@@ -40,22 +35,17 @@ public partial class MatchManager : Node
             _ball.AngularVelocity = Vector3.Zero;
         }
 
-        // Reset Jugadores
-        var players = GetTree().GetNodesInGroup("Players");
-        foreach (Node node in players)
+        foreach (Node node in GetTree().GetNodesInGroup("Players"))
         {
-            if (node is PlayerBase player)
-            {
-                player.ResetToInitialPosition();
-            }
+            if (node is PlayerBase player) player.ResetToInitialPosition();
         }
 
         SetPlayersActive(true);
-        GD.Print("¡Partido reanudado!");
     }
 
     private void SetPlayersActive(bool active)
     {
+        if (!IsInstanceValid(this) || !IsInsideTree()) return;
         foreach (Node node in GetTree().GetNodesInGroup("Players"))
         {
             node.SetProcess(active);

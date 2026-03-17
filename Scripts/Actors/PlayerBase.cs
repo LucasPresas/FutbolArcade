@@ -16,7 +16,8 @@ public partial class PlayerBase : CharacterBody3D
     public IController Controller { get; private set; }
 
     [ExportGroup("Identidad y Objetivos")]
-    [Export] public string TeamName = "Local";
+    // Usamos el nombre del equipo para lógica de pases y defensa
+    [Export] public string TeamName = "Local"; 
     [Export] public Goal MyGoal;
     [Export] public Goal TargetGoal;
 
@@ -29,12 +30,13 @@ public partial class PlayerBase : CharacterBody3D
 
     public override void _Ready()
     {
-        // Guardamos la posición inicial para los reinicios de partido
         _initialPosition = GlobalPosition;
         _initialRotation = GetNode<Node3D>("Rotator").Rotation;
 
-        // Añadimos al grupo Players para que el MatchManager nos encuentre
+        // CRUCIAL: Añadimos al jugador al grupo de su equipo específico
+        // Esto permite que la IA busque aliados rápidamente: GetTree().GetNodesInGroup("Local")
         AddToGroup("Players");
+        AddToGroup(TeamName);
 
         if (Stats == null || BallHandler == null || StateMachine == null)
         {
@@ -57,6 +59,7 @@ public partial class PlayerBase : CharacterBody3D
 
     private void SetupController()
     {
+        // Activamos solo el nodo que corresponde
         if (IsUserControlled)
         {
             Controller = HumanControllerNode as IController;
@@ -76,20 +79,17 @@ public partial class PlayerBase : CharacterBody3D
         }
     }
 
-    // --- SISTEMA DE REINICIO ---
     public void ResetToInitialPosition()
     {
-        // 1. Teletransportar a la posición inicial
         GlobalPosition = _initialPosition;
         Velocity = Vector3.Zero;
         
-        // 2. Resetear rotación del Rotator
         GetNode<Node3D>("Rotator").Rotation = _initialRotation;
 
-        // 3. Volver al estado Idle para frenar cualquier lógica de carrera
+        // Aseguramos que el estado pase a idle (case-insensitive según tu SM)
         StateMachine.ChangeState("idle");
 
-        GD.Print($"[PlayerBase] {Name} reseteado a posición inicial.");
+        GD.Print($"[PlayerBase] {Name} ({TeamName}) reseteado.");
     }
 
     private void ToggleNode(Node node, bool active)
@@ -97,10 +97,12 @@ public partial class PlayerBase : CharacterBody3D
         if (node == null) return;
         node.SetProcess(active);
         node.SetPhysicsProcess(active);
+        // Si el nodo tiene lógica visual o de colisión propia, podrías ocultarlo también aquí
     }
 
-    public override void _PhysicsProcess(double delta)
+    // Método de ayuda para la IA: ¿Este jugador es mi aliado?
+    public bool IsTeammate(PlayerBase other)
     {
-        // Movimiento manejado por la State Machine
+        return other != null && other.TeamName == this.TeamName;
     }
 }

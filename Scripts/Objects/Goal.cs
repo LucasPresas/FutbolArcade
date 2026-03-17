@@ -5,53 +5,52 @@ using System;
 public partial class Goal : Area3D
 {
     [Export] public string GoalType = "Local"; 
+    [Export] public float GoalCooldown = 3.0f; // Tiempo de seguridad
 
-    // 1. EVENTO GLOBAL (Mini EventBus): Avisa a todo el juego que hubo gol
     public static event Action<string> OnGoalScored; 
 
     private CollisionShape3D _collisionShape;
+    private bool _isActive = true;
 
     public override void _Ready()
     {
         BodyEntered += OnBallEntered;
-        // Asumiendo que tu nodo de colisión hijo se llama "CollisionShape3D"
         _collisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
     }
 
-    private async void OnBallEntered(Node3D body)
+    private void OnBallEntered(Node3D body)
     {
-        if (body is Ball ball)
-        {
-            // 2. Apagamos el arco temporalmente para evitar que detecte el gol 60 veces por segundo
-            _collisionShape.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+        // SEGURIDAD: Solo procesar si el arco está activo y es la pelota
+        if (!_isActive || !(body is Ball ball)) return;
 
-            string scorer = (GoalType == "Local") ? "Visitante" : "Local";
-            
-            GD.Print("----------------------------------");
-            GD.Print($"¡¡¡ GOL DEL EQUIPO {scorer.ToUpper()} !!!");
-            GD.Print("----------------------------------");
+        _isActive = false;
+        // Desactivamos la colisión físicamente para evitar dobles detecciones
+        _collisionShape.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
 
-            // 3. Avisamos al aire que hubo gol (Los jugadores escucharán esto para soltar la pelota)
-            OnGoalScored?.Invoke(scorer);
+        string scorer = (GoalType == "Local") ? "Visitante" : "Local";
+        
+        GD.Print($"¡¡¡ GOL DEL EQUIPO {scorer.ToUpper()} !!!");
 
-            // 4. Forzamos a la pelota a quedar "Libre" para que deje de seguir al jugador
-            var ballMachine = ball.GetNodeOrNull<BallStateMachine>("StateMachine");
-            if (ballMachine != null) ballMachine.ChangeState("Free");
+        // 1. Avisamos al MatchManager y a los jugadores
+        OnGoalScored?.Invoke(scorer);
 
-            // 5. Frenamos la pelota adentro de la red
-            ball.LinearVelocity = Vector3.Zero;
-            ball.AngularVelocity = Vector3.Zero;
+        // 2. Liberamos la pelota de cualquier jugador que la lleve
+        var ballMachine = ball.GetNodeOrNull<BallStateMachine>("StateMachine");
+        if (ballMachine != null) ballMachine.ChangeState("Free");
 
-            // 6. DELAY DE 0.5 SEGUNDOS (Usando la forma nativa de Godot C#)
-            await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+        // 3. Frenamos la pelota (El MatchManager se encargará de posicionarla luego)
+        ball.LinearVelocity = Vector3.Zero;
+        ball.AngularVelocity = Vector3.Zero;
 
-            // 7. Reseteamos la posición y físicas al centro de la cancha
-            ball.GlobalPosition = Vector3.Zero;
-            ball.LinearVelocity = Vector3.Zero;
-            ball.AngularVelocity = Vector3.Zero;
+        // 4. COOLDOWN: No reactivamos el arco inmediatamente. 
+        // Esperamos a que el MatchManager haga el reset de todo.
+        GetTree().CreateTimer(GoalCooldown).Timeout += ResetGoal;
+    }
 
-            // 8. Volvemos a encender el arco
-            _collisionShape.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
-        }
+    private void ResetGoal()
+    {
+        _isActive = true;
+        _collisionShape.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
+        GD.Print($"Arco {GoalType} reactivado.");
     }
 }
