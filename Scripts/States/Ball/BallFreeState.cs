@@ -1,7 +1,8 @@
 using Godot;
+using System;
 
-// CAMBIO CRÍTICO: Debe heredar de 'State', no de 'Node' ni de 'BallState'
-public partial class BallFreeState : State 
+// Debe heredar de State (ya corregido)
+public partial class BallFreeState : State
 {
     private Ball _ball;
 
@@ -12,7 +13,7 @@ public partial class BallFreeState : State
 
     public override void Enter()
     {
-        if (_ball != null) _ball.Freeze = false;
+        if (_ball != null) _ball.SetFrozen(false);
         GD.Print("[Ball] Estado: Free");
     }
 }
