@@ -65,6 +65,9 @@ bottom_radius = 0.7
 height = 0.08
 
 [sub_resource type="FontFile" id="FontFile_7erxw"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/variation_coordinates = {}
 cache/0/face_index = 0
 cache/0/embolden = 0.0
@@ -1051,6 +1054,7 @@ script = ExtResource("4_vu15h")
 [node name="BallHandler" type="Node" parent="Components" unique_id=2138207645 node_paths=PackedStringArray("TackleArea")]
 script = ExtResource("5_1rcb1")
 TackleArea = NodePath("../../Rotator/TackleArea")
+TackleVisualColor = Color(1, 1, 0, 1)
 
 [node name="StateMachine" type="Node" parent="Components" unique_id=1209413348 node_paths=PackedStringArray("InitialState")]
 script = ExtResource("6_7erxw")
